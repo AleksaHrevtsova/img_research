@@ -7,31 +7,40 @@ import debounce from 'lodash.debounce'
 
 const loadMoreBtn = document.createElement('button')
 loadMoreBtn.textContent = 'load more...'
-loadMoreBtn.classList.add('loadMoreBtn')
+loadMoreBtn.classList.add('isHidden')
+// refs.ul.insertAdjacentElement('afterend', loadMoreBtn)
+refs.ul.after(loadMoreBtn)
 
-refs.ul.append(loadMoreBtn)
+// let perPage = getCountOfElements(refs.countSpan, refs.decrementBtn, refs.incrementBtn)
 
 refs.input.addEventListener('input', debounce((event)=>{
   refs.ul.innerHTML = ''
-  let input = event.target.value
-  let perPage = getCountOfElements(refs.countSpan)
-  apiService.getImages(input)
+  // apiService.perPage = getCountOfElements(refs.countSpan, refs.decrementBtn, refs.incrementBtn)
+  apiService.query = event.target.value
+  apiService.getImages()
   .then(d => insertElements(d.hits, imgTemplate, refs.ul))
   refs.input.value = ''
+  loadMoreBtn.classList.add('loadMoreBtn')
+  loadMoreBtn.classList.remove('isHidden')
 }, 1000))
 
+loadMoreBtn.addEventListener('click', ()=>{
+  apiService.setPage()
+  apiService.getImages()
+  .then(d => insertElements(d.hits, imgTemplate, refs.ul))
+
+})
 function insertElements(data, template, place){
   const element = template(data)
   place.insertAdjacentHTML('afterbegin', element)
 }
 
-function getCountOfElements(elem){
-  refs.decrementBtn.addEventListener('click', ()=>{
-    counter.decrement(elem)
-  })
-  increfs.incrementBtn.addEventListener('click', ()=>{
-    counter.increment(elem)
-  })
-
-  return counter.count
-}
+// function getCountOfElements(elem, a, b){
+//   a.addEventListener('click', ()=>{
+//     counter.decrement(elem)
+//   })
+//   b.addEventListener('click', ()=>{
+//     counter.increment(elem)
+//   })
+//   return +counter.count
+// }

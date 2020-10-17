@@ -1,4 +1,45 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+ul {
+  list-style: none;
+}
+
 body {
   background-color: black;
   color: wheat;
+}
+
+.gallery {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-evenly;
+}
+
+.gallery li,
+.stats {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.gallery li {
+  flex-flow: column;
+  align-items: center;
+  border: 1px solid wheat;
+  padding: 20px 10px;
+}
+
+.isHidden {
+  display: none;
+}
+
+.loadMoreBtn {
+  display: block;
+  margin: 50px auto;
+  padding: 20px 10px;
+  background: black;
+  color: wheat;
+  border: 2px solid wheat;
 }
